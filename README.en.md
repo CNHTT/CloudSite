@@ -93,7 +93,7 @@ Bweb handles the heavy lifting:
 | **Deploy** | Cloudflare Pages Direct Upload (BLAKE3 asset hashing + manifest) and Firebase Hosting REST (gzip + SHA-256), no CLI dependency; batch jobs with concurrency, live logs, and cancellation |
 | **Domains** | Multiple custom domains per project; Cloudflare proxied CNAME plus certificate handled automatically; Firebase A / TXT records written automatically or explained clearly. Domain services include availability lookup, registration guidance, and assisted registration — the domain is registered in your name |
 | **Grow** | Inquiry forms, live chat, WhatsApp Business, email subscriptions and campaigns, ad conversion tracking, social distribution with UTM, data export, SEO/GEO audits |
-| **Collaborate** | Per-account data isolation, team permissions, a single wallet and billing, refunds and credit notes, a unified review desk; pay by WeChat / PayPal / USDT·USDC / bank transfer, with invoices |
+| **Collaborate** | Per-account data isolation, team permissions, a single wallet and billing, refunds and credit notes, a unified review desk; pay by WeChat / PayPal / Web3 payments / bank transfer, with invoices |
 
 ## What's inside
 

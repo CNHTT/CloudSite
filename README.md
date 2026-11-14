@@ -93,7 +93,7 @@ Bweb 把重活接了过去：
 | **部署** | Cloudflare Pages Direct Upload（BLAKE3 资源哈希 + manifest）与 Firebase Hosting REST（gzip + SHA-256），无 CLI 依赖；支持批量任务、并发、实时日志与取消 |
 | **域名** | 一个项目绑定多个自定义域名；Cloudflare 自动写入代理 CNAME 并签发证书，Firebase 自动写入 A / TXT 记录或给出配置指引；域名服务支持可用性查询、注册指导与协助注册，域名登记在用户名下 |
 | **增长** | 询盘表单、在线客服、WhatsApp Business、邮箱订阅、营销邮件与自动化、广告转化回传、社媒分发与 UTM、数据导出、SEO/GEO 体检 |
-| **协作** | 账号级数据隔离、团队权限、单一钱包与账单、退款与红冲、统一审核台；支持微信 / PayPal / USDT·USDC / 对公转账与发票 |
+| **协作** | 账号级数据隔离、团队权限、单一钱包与账单、退款与红冲、统一审核台；支持微信 / PayPal / Web3 支付 / 对公转账与发票 |
 
 ## 功能细节
 
