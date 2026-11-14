@@ -4,7 +4,7 @@
 
 # Bweb
 
-**Your AI partner for B2B websites.**
+**One sentence to build. One path to grow.**
 
 Lumei runs a cross-border e-commerce business and her own independent site. Every new product and every new market comes with one question: when can the site start bringing customers in?
 
