@@ -68,7 +68,7 @@ Lumei rarely asks "is the site up?" anymore. Now she asks: "When can we launch t
 | **An indie developer or small team** | No more build pipelines, deploy scripts, and DNS edits for a single landing page |
 | **Already generating pages with AI** | Hand over HTML / ZIP; Bweb deploys it, binds the domain, adds forms and chat |
 | **An agency or site-building provider** | Multi-tenant isolation, team permissions, wallet and billing, a unified review desk |
-| **Automating with agents** | Use Claude Code, Codex, or any MCP client to build, edit, publish, and audit sites |
+| **Automating with agents** | Use your own AI tools — Claude Code, Codex, Workbuddy, Cursor, n8n or any MCP client — to build, edit, publish, and audit sites |
 
 ## How export sellers turn a site into inquiries
 
@@ -89,8 +89,8 @@ Bweb handles the heavy lifting:
 | Stage | What you get |
 | --- | --- |
 | **Generate** | AI builds or rewrites whole pages; multilingual sites generate up to 4 language versions in one pass; attach library images and icons to the prompt |
-| **Assemble** | 62 templates (industry sites, cross-border ad pages, company sites and e-commerce landing pages) × 8 visual styles; ZIP / folder upload and site-group import / export |
-| **Deploy** | Cloudflare Pages Direct Upload (BLAKE3 asset hashing + manifest) and Firebase Hosting REST (gzip + SHA-256), no CLI dependency; batch jobs with concurrency, live logs, and cancellation |
+| **Assemble** | 67 templates (industry sites, cross-border ad pages, event launch pages, company sites and e-commerce landing pages) × 8 visual styles; ZIP / folder upload and site-group import / export |
+| **Deploy** | Cloudflare Pages Direct Upload (BLAKE3 asset hashing + manifest) and Firebase Hosting REST (gzip + SHA-256), no CLI dependency; edit locally with your own tools and upload through the MCP assistant; batch jobs with concurrency, live logs, and cancellation |
 | **Domains** | Multiple custom domains per project; Cloudflare proxied CNAME plus certificate handled automatically; Firebase A / TXT records written automatically or explained clearly. Domain services include availability lookup, registration guidance, and assisted registration — the domain is registered in your name |
 | **Grow** | Inquiry forms, live chat, WhatsApp Business, email subscriptions and campaigns, ad conversion tracking, social distribution with UTM, data export, SEO/GEO audits |
 | **Collaborate** | Per-account data isolation, team permissions, a single wallet and billing, refunds and credit notes, a unified review desk; pay by WeChat / PayPal / Web3 payments / bank transfer, with invoices |
@@ -100,7 +100,7 @@ Bweb handles the heavy lifting:
 ### 🧱 Build
 
 - **AI site generation and editing** — works with the Anthropic Messages API or any OpenAI-compatible endpoint (OpenAI, DeepSeek, local models). Describe a change on the site page and the AI rewrites the full HTML; save and the preview refreshes.
-- **Multilingual** — up to 4 languages, each rendered as its own static page (`index.html`, `en/index.html`, …) with `hreflang`, a shared language switcher, and RTL support.
+- **Multilingual** — language pages configured for the target markets, each rendered as its own static page (`index.html`, `en/index.html`, …) with `hreflang`, a shared language switcher, and RTL support.
 - **Industry templates** — 62 production-ready templates covering industry sites, cross-border ad pages, company sites, and e-commerce landing pages, with copy, product sections, FAQ, and inquiry blocks; switch between 8 visual styles or keep editing with AI.
 - **Manual content editing** — edit page text, titles, meta descriptions, and images block by block; only the matching source is touched, while CSS / JS / inline SVG stay intact.
 - **Asset library** — manage images, icons, and SVG / ICO assets; attach up to 8 assets to a single AI request.
@@ -110,6 +110,7 @@ Bweb handles the heavy lifting:
 
 - **Two targets** — each site can use Cloudflare Pages or Firebase Hosting, and can switch at any time.
 - **No CLI required** — Cloudflare goes through the Pages Direct Upload API, Firebase through the official Hosting REST API. No local wrangler or firebase-tools install.
+- **Bring your own toolchain** — edit the site locally with your editor, scripts or AI tools, then upload it through the MCP assistant with `upload_site` (small text sites) or `create_upload_link` (full ZIP) and deploy in the same call. No platform editor required.
 - **Batch building** — paste a list or import CSV, choose AI generation / template reuse / built-in template per row; concurrency, domain conflict strategy, live progress, logs, and cancellation.
 - **Certificates and DNS** — proxied CNAME written automatically for Cloudflare-hosted domains; for Firebase, DNS is written automatically when the domain is in a connected Cloudflare account, otherwise you get clear manual instructions.
 - **Live preview** — desktop and mobile views, with a shareable preview link.
@@ -128,14 +129,17 @@ Drop one `enhance.js` on the deployed page and you get:
 
 ### 🤖 Agents and APIs
 
-- **MCP** — a standard MCP Streamable HTTP endpoint at `/api/mcp`. Claude Code, Codex, Workbuddy, and other clients can list sites, generate pages, upload ZIPs, publish, bind domains, and run SEO audits.
-- **Read-write and read-only tokens** — read-only tokens never expose write tools, so they are safe to hand to a third party for review.
+- **MCP** — a standard MCP Streamable HTTP endpoint at `https://bweb.help/api/mcp`. **No AI platform lock-in**: connect Claude Code, Codex, Workbuddy, Cursor, n8n or your own MCP client with one command. 123 tools cover sites, files, publishing, domains, inquiries, chat, subscriptions, marketing email, social distribution, analytics and the Agent workspace.
+- **Bring your own AI** — Bweb does not require a specific model or client. Built-in models power site generation, Agent tasks and on-site AI features; day-to-day operations, analytics and customer conversations run through your own AI over MCP. Switching clients does not change the setup.
+- **Organized by capability** — sites and publishing 15, site growth 31, marketing and automation 30, social distribution 16, Agent workspace 29, account 2. Each domain has its own doc under “MCP docs” below.
+- **Read-write and read-only tokens** — read-only tokens never expose write tools in `tools/list`, so they are safe to hand to a third party for review. Tokens can be scoped to specific sites, given an expiry, and revoked at any time.
+- **Explicit confirmation and audit** — sending campaigns, activating automations and social dispatch require `confirm=true`; every call records the token, tool, site, IP and `request_id`.
 - **Plugin-free API** — `/api/v1` with a site key lets pages generated by third-party tools use the enhancement features without a backend.
 - **Zero-dependency bridge** — `mcp/cloudsite-mcp.mjs` is included for clients that only speak stdio. The file name and `CLOUDSITE_` env vars keep the legacy prefix for backward compatibility; the product brand is Bweb.
 
 ## Quick start
 
-Bweb exposes a standard MCP Streamable HTTP endpoint. Nothing to deploy: create an account, get a token, connect your AI client, and start building, publishing, and binding domains.
+Bweb exposes a standard MCP Streamable HTTP endpoint with no AI platform lock-in. Nothing to deploy: create an account, get a token, point your own AI tools (Claude Code, Codex, Workbuddy, Cursor, n8n and others) at the endpoint, and start building, publishing, binding domains, and handling inquiries, chat, subscriptions and campaigns.
 
 ### 1. Create an access token
 
@@ -171,7 +175,7 @@ args = ["/absolute/path/cloudsite-mcp.mjs"]
 env = { CLOUDSITE_URL = "https://bweb.help", CLOUDSITE_API_TOKEN = "cs_your_token" }
 ```
 
-Other MCP clients that speak HTTP:
+Other MCP clients that speak HTTP (including Workbuddy, Cursor, Claude Desktop and custom agents):
 
 ```json
 {
@@ -184,6 +188,8 @@ Other MCP clients that speak HTTP:
   }
 }
 ```
+
+> **The list above is not exhaustive.** As long as a client speaks MCP (Streamable HTTP or stdio), it works: Workbuddy, Cursor, Claude Desktop, n8n, Make, Zapier, ChatGPT when it supports remote MCP, or your own scripts. Tools, permissions, quotas and audit are identical — switching clients does not change the setup.
 
 ### 3. Call the tools
 
@@ -212,13 +218,21 @@ curl https://bweb.help/api/mcp \
   }'
 ```
 
+**Edit with your own tools, then let the MCP assistant upload it**
+
+No platform editor required. Change the site locally with your editor, scripts or AI tools, then tell the MCP client:
+
+> Upload `/path/to/my-site` as `my-site`, publish it, and give me a preview link.
+
+The MCP assistant calls `upload_site` (a few text files) or `create_upload_link` (a full ZIP and a single-use upload URL). Preview with `preview_site`, then publish with `deploy_site`; pass `deploy=true` on upload to do it in one step. For pages generated by other tools, `enhance_embed_inject` can add `enhance.js`.
+
 Common tools:
 
 | Tool | What it does |
 | --- | --- |
 | `list_sites` / `get_site` | Inspect sites and details |
 | `create_site` / `generate_site` | Create a site and generate all pages with AI |
-| `upload_site` / `create_upload_link` | Upload a local static site (text files or ZIP) |
+| `upload_site` / `create_upload_link` | Upload a local static site (text files or full ZIP), optionally deploying in the same call |
 | `chat_site` | Edit a site through conversation |
 | `deploy_site` | Publish to Cloudflare Pages / Firebase Hosting |
 | `bind_domain` | Attach a custom domain |
@@ -226,6 +240,19 @@ Common tools:
 | `marketing_*` / `enhance_*` | Marketing email, inquiries, chat, subscriptions, analytics |
 
 The full tool list is available in the console under **Settings → MCP / Agent**.
+
+### MCP docs
+
+| Capability | Doc | Tools | Coverage |
+| --- | --- | --- | --- |
+| Sites, files and publishing | [docs/mcp/en/sites.md](docs/mcp/en/sites.md) | 15 | Site and file inspection, AI generation, chat edits, ZIP upload, preview, deploy, custom domains |
+| Site growth | [docs/mcp/en/growth.md](docs/mcp/en/growth.md) | 31 | Inquiries and leads, live chat, visitor accounts, subscriptions, tracking and consent, SEO/GEO audits, external-site embedding, exports, analytics |
+| Marketing email and automation | [docs/mcp/en/marketing.md](docs/mcp/en/marketing.md) | 30 | Subscribers, lists, templates, sending channels, campaigns, automations, suppression, price quotes |
+| Social distribution | [docs/mcp/en/social.md](docs/mcp/en/social.md) | 16 | Post drafts, compliance checks, job claiming, publish reporting, metrics |
+| Agent workspace | [docs/mcp/en/agent.md](docs/mcp/en/agent.md) | 29 | Tasks, skill library, per-site knowledge, plans, approvals, artifacts and reviews |
+| Setup overview | [docs/mcp/en/README.md](docs/mcp/en/README.md) | 123 | Endpoint, tokens, client setup, permissions, limits and troubleshooting |
+
+The authoritative tool list is whatever `tools/list` returns.
 
 No account yet? [Sign up free](https://bweb.help/en/register), then create a token under **Settings → MCP / Agent**.
 
@@ -240,7 +267,7 @@ Already have a backend, or building pages with another tool? Create a site key i
 | [Features and pricing](https://bweb.help/en/pricing) | Plans, quotas, and billing |
 | [Guide](https://bweb.help/en/guide) | End-to-end: create a site, publish it, bind a domain |
 | [Use cases](https://bweb.help/en/use-cases) | Cross-border B2B lead generation, site networks, multilingual sites |
-| MCP setup | Client setup, tokens, and the full tool list (see Quick start) |
+| MCP setup | [Setup overview](docs/mcp/en/README.md), client config, tokens and per-domain docs (see “MCP docs” above) |
 | Public API | `/api/v1` site keys and plugin-free embedding (create a key in site details) |
 
 ## Contact and support

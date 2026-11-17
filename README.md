@@ -68,7 +68,7 @@ Bweb 就是从这些重复的夜里长出来的。它把整条链路收进一个
 | **独立开发者 / 小团队** | 不再为一张落地页折腾构建、部署与 DNS |
 | **已经用 AI 写页面的人** | 把 HTML / ZIP 交给 Bweb，部署、绑域名、加询盘与客服 |
 | **建站代理 / 服务商** | 多租户账号隔离、团队权限、钱包账单、统一审核台 |
-| **自动化玩家** | 用 Claude Code、Codex 等 MCP 客户端直接建站、改站、发布、体检 |
+| **自动化玩家** | 用自己的 AI 工具（Claude Code、Codex、Workbuddy、Cursor、n8n 等）直接建站、改站、发布、体检 |
 
 ## 外贸卖家，怎么做独立站获客
 
@@ -88,9 +88,9 @@ Bweb 把重活接了过去：
 
 | 阶段 | 能力 |
 | --- | --- |
-| **生成** | AI 对话生成或整体改写页面；多语言站点一次生成 4 种语言页面；素材库图片 / 图标可直接附加给 AI |
-| **装配** | 62 套模板（行业站、跨境广告页、公司信息站与电商落地页）× 8 种视觉风格；支持 ZIP / 文件夹上传与站群模板导入导出 |
-| **部署** | Cloudflare Pages Direct Upload（BLAKE3 资源哈希 + manifest）与 Firebase Hosting REST（gzip + SHA-256），无 CLI 依赖；支持批量任务、并发、实时日志与取消 |
+| **生成** | AI 对话生成或整体改写页面；多语言站点按目标市场生成语言页面；素材库图片 / 图标可直接附加给 AI |
+| **装配** | 67 套模板（行业站、跨境广告页、活动发布站、公司信息站与电商落地页）× 8 种视觉风格；支持 ZIP / 文件夹上传与站群模板导入导出 |
+| **部署** | Cloudflare Pages Direct Upload（BLAKE3 资源哈希 + manifest）与 Firebase Hosting REST（gzip + SHA-256），无 CLI 依赖；也支持用自己的工具改好本地文件后，通过 MCP 小助手上传发布；支持批量任务、并发、实时日志与取消 |
 | **域名** | 一个项目绑定多个自定义域名；Cloudflare 自动写入代理 CNAME 并签发证书，Firebase 自动写入 A / TXT 记录或给出配置指引；域名服务支持可用性查询、注册指导与协助注册，域名登记在用户名下 |
 | **增长** | 询盘表单、在线客服、WhatsApp Business、邮箱订阅、营销邮件与自动化、广告转化回传、社媒分发与 UTM、数据导出、SEO/GEO 体检 |
 | **协作** | 账号级数据隔离、团队权限、单一钱包与账单、退款与红冲、统一审核台；支持微信 / PayPal / Web3 支付 / 对公转账与发票 |
@@ -100,8 +100,8 @@ Bweb 把重活接了过去：
 ### 🧱 建站
 
 - **AI 建站 / 改站**：接入 Anthropic Messages API 或任意 OpenAI 兼容接口（OpenAI、DeepSeek、本地模型均可）。在站点详情里描述修改要求，AI 直接输出完整 HTML，保存即刷新预览。
-- **多语言**：最多 4 种语言，每种语言生成独立静态页面（`index.html`、`en/index.html`…），自动写入 `hreflang`、语言切换器与 RTL 样式。
-- **行业模板**：62 套可直接上线的模板，覆盖行业站、跨境广告页、公司信息站与电商落地页，内置文案、产品区、FAQ 与询盘区；8 种视觉风格可切换，也可继续交给 AI 改写。
+- **多语言**：语言页面按目标市场配置，每种语言生成独立静态页面（`index.html`、`en/index.html`…），自动写入 `hreflang`、语言切换器与 RTL 样式。
+- **行业模板**：67 套可直接上线的模板，覆盖行业站、跨境广告页、活动发布站、公司信息站与电商落地页，内置文案、产品区、FAQ 与询盘区；8 种视觉风格可切换，也可继续交给 AI 改写。
 - **手动内容编辑**：按区块列出页面文字、标题、搜索描述与图片，只改对应源码位置，CSS / JS / 内联 SVG 保持不变。
 - **素材库**：图片、图标、SVG / ICO 统一管理，建站小助手可一次附加最多 8 个素材。
 - **站群迁移**：整组站点打包为 ZIP 导出，在另一个账号导入。
@@ -110,6 +110,7 @@ Bweb 把重活接了过去：
 
 - **双平台**：每个站点可独立选择 Cloudflare Pages 或 Firebase Hosting，随时切换。
 - **无 CLI 依赖**：Cloudflare 走 Pages Direct Upload API，Firebase 走官方 Hosting REST API，不要求本机安装 wrangler / firebase-tools。
+- **自带工具改站**：用自己的编辑器、脚本或 AI 工具在本地修改站点，再通过 MCP 小助手 `upload_site`（少量文本）或 `create_upload_link`（整套 ZIP）上传，`deploy=true` 一步发布；不需要学习平台编辑器。
 - **批量建站**：粘贴列表或导入 CSV，按行选择 AI 生成 / 复用模板 / 内置模板；支持并发数、域名冲突策略、实时进度、日志与取消任务。
 - **证书与 DNS**：域名托管在 Cloudflare 时自动写入代理 CNAME；Firebase 域名在 Cloudflare 账号内时自动写入 DNS，否则给出明确的手动配置指引。
 - **在线预览**：桌面 / 手机双视图，预览链接可直接分享。
@@ -128,14 +129,17 @@ Bweb 把重活接了过去：
 
 ### 🤖 Agent 与 API
 
-- **MCP 接入**：标准 MCP Streamable HTTP 端点 `/api/mcp`。Claude Code、Codex、Workbuddy 等客户端可以直接查看站点、生成页面、上传 ZIP、发布、绑定域名、做 SEO 体检。
-- **读写 / 只读令牌**：只读令牌不会暴露任何写操作工具，适合交给第三方审计。
+- **MCP 接入**：标准 MCP Streamable HTTP 端点 `https://bweb.help/api/mcp`。**不绑定 AI 平台**——Claude Code、Codex、Workbuddy、Cursor、n8n 或你自己的 MCP 客户端，一条命令接入。共 123 个工具，覆盖建站、文件、发布、域名、询盘、客服、订阅、营销邮件、社媒分发、经营分析与 Agent 工作台。
+- **自带 AI（BYO AI）**：Bweb 不要求你使用某一家模型或客户端。平台内置模型负责建站生成、Agent 任务与站内 AI 能力；日常运营、分析和服务客户，用你自己的 AI 工具通过 MCP 完成。换客户端不需要改接入方式。
+- **按能力分域**：建站与发布 15 个、站点增强 31 个、营销与自动化 30 个、社媒分发 16 个、Agent 工作台 29 个、账号 2 个；每个域都有独立文档，见下方「MCP 能力文档」。
+- **读写 / 只读令牌**：只读令牌的 `tools/list` 不包含任何写工具，适合交给第三方审计；令牌可限定站点范围、设置过期时间并随时撤销。
+- **高危确认与审计**：发送营销邮件、激活自动化、社媒派发等操作要求 `confirm=true`；每次调用记录令牌、工具、站点、IP 与 `request_id`。
 - **免插件 API**：`/api/v1` + 站点 Key，已有后端或第三方工具生成的页面也能接入增强能力。
 - **零依赖桥接**：仓库内的 `mcp/cloudsite-mcp.mjs` 用于只支持 stdio 的客户端。脚本文件名与环境变量名保留 `cloudsite` / `CLOUDSITE_` 前缀以兼容旧配置，产品品牌为 Bweb。
 
 ## 快速开始
 
-Bweb 提供标准的 MCP Streamable HTTP 端点。不用部署任何服务：注册账号、创建令牌、接入 AI 客户端，就能直接建站、发布、绑定域名。
+Bweb 提供标准的 MCP Streamable HTTP 端点，不限制 AI 平台或客户端。不用部署任何服务：注册账号、创建令牌，把端点交给你自己的 AI 工具（Claude Code、Codex、Workbuddy、Cursor、n8n 等），就能直接建站、发布、绑定域名，也能处理询盘、客服、订阅和营销。
 
 ### 1. 创建访问令牌
 
@@ -171,7 +175,7 @@ args = ["/绝对路径/cloudsite-mcp.mjs"]
 env = { CLOUDSITE_URL = "https://bweb.help", CLOUDSITE_API_TOKEN = "cs_你的令牌" }
 ```
 
-其他支持 HTTP 的 MCP 客户端：
+其他支持 HTTP 的 MCP 客户端（含 Workbuddy、Cursor、Claude Desktop、自研 Agent）：
 
 ```json
 {
@@ -184,6 +188,8 @@ env = { CLOUDSITE_URL = "https://bweb.help", CLOUDSITE_API_TOKEN = "cs_你的令
   }
 }
 ```
+
+> **客户端不限于以上几种。** 只要支持 MCP（Streamable HTTP 或 stdio），Workbuddy、Cursor、Claude Desktop、n8n、Make、Zapier、ChatGPT（支持远程 MCP 时）或你自己写的脚本都能接入。工具清单、权限、配额与审计完全一致，换客户端不需要改接入方式。
 
 ### 3. 调用工具
 
@@ -212,13 +218,21 @@ curl https://bweb.help/api/mcp \
   }'
 ```
 
+**用自己的工具改站，再让 MCP 小助手传上去**
+
+不需要在平台里编辑。用自己的编辑器、脚本或 AI 工具在本地改好站点，然后对 MCP 客户端说：
+
+> 把 `/path/to/my-site` 上传到 `my-site`，发布，并给我预览链接。
+
+MCP 小助手会调用 `upload_site`（少量文本文件）或 `create_upload_link`（整套 ZIP，单次上传链接）；上传后可先 `preview_site` 检查，再 `deploy_site` 发布；上传时传 `deploy=true` 可以一步到位。页面由外部工具生成时，还可以用 `enhance_embed_inject` 注入 `enhance.js`。
+
 常用工具：
 
 | 工具 | 作用 |
 | --- | --- |
 | `list_sites` / `get_site` | 查看站点与详情 |
 | `create_site` / `generate_site` | 新建站点并用 AI 生成整站 |
-| `upload_site` / `create_upload_link` | 上传本地静态站（文本文件或 ZIP） |
+| `upload_site` / `create_upload_link` | 上传本地静态站（文本文件或整套 ZIP），可一步发布 |
 | `chat_site` | 对话式改站 |
 | `deploy_site` | 发布到 Cloudflare Pages / Firebase Hosting |
 | `bind_domain` | 绑定自定义域名 |
@@ -226,6 +240,19 @@ curl https://bweb.help/api/mcp \
 | `marketing_*` / `enhance_*` | 营销邮件、询盘、会话、订阅与分析 |
 
 完整工具清单可在控制台「设置 → MCP / Agent」中查看。
+
+### MCP 能力文档
+
+| 能力 | 文档 | 工具数 | 覆盖 |
+| --- | --- | --- | --- |
+| 建站、文件与发布 | [docs/mcp/sites.md](docs/mcp/sites.md) | 15 | 站点与文件、AI 生成、对话改站、ZIP 上传、预览、发布、绑定域名 |
+| 站点增强 | [docs/mcp/growth.md](docs/mcp/growth.md) | 31 | 询盘与线索、在线客服、访客登录、订阅、追踪与合规、SEO/GEO 体检、外部建站接入、导出、分析 |
+| 营销邮件与自动化 | [docs/mcp/marketing.md](docs/mcp/marketing.md) | 30 | 订阅者、列表、模板、发信通道、活动发送、自动化、抑制名单、费用试算 |
+| 社媒分发 | [docs/mcp/social.md](docs/mcp/social.md) | 16 | 内容草稿、合规检测、任务领取、发布回传、表现数据 |
+| Agent 工作台 | [docs/mcp/agent.md](docs/mcp/agent.md) | 29 | 任务、技能仓库、按站点知识库、计划、审批、交付物与周复盘 |
+| 接入总览 | [docs/mcp/README.md](docs/mcp/README.md) | 123 | 端点、令牌、客户端配置、权限、限流与排查 |
+
+完整工具清单以 `tools/list` 返回为准。
 
 还没有账号？[免费注册](https://bweb.help/register) 后即可在「设置 → MCP / Agent」创建令牌。
 
@@ -240,7 +267,7 @@ curl https://bweb.help/api/mcp \
 | [功能与定价](https://bweb.help/pricing) | 套餐、额度与计费方式 |
 | [使用指南](https://bweb.help/guide) | 从创建站点到绑定域名的完整流程 |
 | [适用场景](https://bweb.help/use-cases) | 跨境 B2B 获客、外贸站群、多语言独立站 |
-| MCP 接入 | 客户端配置、令牌与完整工具清单（见上方「快速开始」） |
+| MCP 接入 | [接入总览](docs/mcp/README.md)、客户端配置、令牌与分域文档（见上方「MCP 能力文档」） |
 | 公开 API | `/api/v1` 站点 Key 与免插件接入（在站点详情创建 Key） |
 
 ## 联系与支持
