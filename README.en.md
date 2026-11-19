@@ -22,7 +22,7 @@ Cross-border B2B / independent sites · AI generation · Batch building · Cloud
 [![EdgeOne Pages](https://img.shields.io/badge/EdgeOne-Pages-0052D9)](https://edgeone.ai)
 [![Alibaba Cloud ESA](https://img.shields.io/badge/Alibaba%20Cloud-ESA-FF6A00)](https://www.aliyun.com/product/esa)
 
-[Website](https://bweb.help) · [Get started free](https://bweb.help/en/register) · [Pricing](https://bweb.help/en/pricing) · [MCP setup](#quick-start)
+[Website](https://bweb.help) · [Get started free](https://bweb.help/en/register) · [Pricing](https://bweb.help/en/pricing) · [MCP setup](#quick-start) · [Changelog](CHANGELOG.md)
 
 </div>
 

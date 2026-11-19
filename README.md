@@ -22,7 +22,7 @@
 [![EdgeOne Pages](https://img.shields.io/badge/EdgeOne-Pages-0052D9)](https://edgeone.ai)
 [![Alibaba Cloud ESA](https://img.shields.io/badge/Alibaba%20Cloud-ESA-FF6A00)](https://www.aliyun.com/product/esa)
 
-[官网](https://bweb.help) · [免费注册](https://bweb.help/register) · [查看定价](https://bweb.help/pricing) · [MCP 接入](#快速开始)
+[官网](https://bweb.help) · [免费注册](https://bweb.help/register) · [查看定价](https://bweb.help/pricing) · [MCP 接入](#快速开始) · [更新记录](CHANGELOG.md)
 
 </div>
 
