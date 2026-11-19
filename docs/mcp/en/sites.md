@@ -1,6 +1,6 @@
 # Sites, files and publishing
 
-The full site lifecycle: inspect, generate, edit, upload, preview, deploy and bind domains. **15 tools**.
+The full site lifecycle: inspect, generate, edit, upload, preview, deploy and bind domains. **19 tools**.
 
 **Edit with your own tools:** change the files locally with your editor, scripts or AI tools, then upload them through the MCP assistant with `upload_site` / `create_upload_link`. No platform editor and no CLI required.
 
@@ -25,10 +25,12 @@ edit locally → upload_site / create_upload_link → preview_site → deploy_si
 | `create_upload_link` | Write | Create a single-use ZIP upload link for a full static site |
 | `write_site_file` | Write | Write or replace one text file and mark the site for deployment |
 | `delete_site_file` | Write | Delete one file; `index.html` is protected |
-| `deploy_site` | Write | Publish to Cloudflare Pages or Firebase Hosting |
-| `bind_domain` | Write | Attach a custom domain; Cloudflare-hosted DNS and HTTPS are automatic |
+| `deploy_site` | Write | Publish to Cloudflare Pages / Firebase Hosting / EdgeOne Pages / ESA Pages; CF/FB are Bweb-managed only, EO/ESA also support IDE deployments |
+| `bind_domain` | Write | Attach a custom domain. Cloudflare writes the CNAME; Firebase/EdgeOne/ESA auto-write when a DNS provider is configured and return copyable records otherwise. ESA also applies a free certificate and force-HTTPS |
+| `domain_dns_apply` | Write | Retry writing a bound domain's DNS records through Cloudflare/Aliyun DNS; replacing conflicts needs user confirmation |
+| `domain_status_refresh` | Read | Refresh DNS, certificate and ESA force-HTTPS status |
 
-> Read-only tokens can only use the read tools. Deployment and domain binding require Cloudflare / Firebase credentials already configured in the console.
+> Read-only tokens can only use the read tools. Deployment and domain binding require credentials for the site's chosen provider (Cloudflare / Firebase / EdgeOne / ESA) already configured in the console.
 
 ## Typical build flow
 
@@ -76,7 +78,8 @@ curl -F "archive=@/tmp/site.zip" "https://bweb.help/api/mcp/upload?ticket=..."
 
 - The link is single-use, valid for 30 minutes by default (5–120 minutes); `deploy=true` publishes after upload.
 - The ZIP root or a single subdirectory must contain `index.html`; the outer folder is stripped automatically.
-- File ≤25MB, extracted total ≤100MB, at most 2000 files.
+- File ≤25MB, ZIP ≤120MB, extracted total ≤100MB, at most 2000 files.
+- The account also has a 100MB base storage pool shared by media assets, site source files and OSS backups; purchases extend it and over-quota writes return `storage_quota_exceeded`.
 - Uploads **replace all existing files**; system files such as `.DS_Store` are ignored.
 
 **Option 2: `upload_site` inline (small text-only sites)**

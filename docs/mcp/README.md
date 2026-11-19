@@ -2,28 +2,37 @@
 
 Bweb 提供标准的 **MCP Streamable HTTP** 端点。注册后创建一个令牌，Claude Code、Codex、Workbuddy、Cursor、n8n 等客户端就能用自然语言建站、改站、发布、绑定域名，并直接处理询盘、客服、订阅、营销邮件、社媒分发和经营分析——不需要安装插件，也不需要浏览器扩展，更不限制你使用哪家 AI。
 
-当前服务端共 **123 个工具**，按能力分域如下：
+当前服务端共 **159 个工具**，按能力分域如下：
 
-| 能力 | 能做什么 | 工具数 | 文档 |
-| --- | --- | --- | --- |
-| 建站与发布 | 查看站点与文件、AI 生成、对话改站、上传 ZIP、预览、发布、绑定域名 | 15 | [sites.md](./sites.md) |
-| 站点增强 | 询盘与线索、在线客服、访客登录、订阅、追踪与合规、SEO/GEO 体检、外部建站接入、导出、经营分析 | 31 | [growth.md](./growth.md) |
-| 营销邮件与自动化 | 订阅者、列表、模板、发信通道、活动发送、自动化、抑制名单、费用试算 | 30 | [marketing.md](./marketing.md) |
-| 社媒分发 | 内容草稿、合规检测、任务领取、发布回传、表现数据 | 16 | [social.md](./social.md) |
-| Agent 工作台 | 任务、技能仓库、按站点知识库、计划、审批、交付物与周复盘 | 29 | [agent.md](./agent.md) |
-| 账号 | `whoami`、`capabilities` | 2 | 本文 |
+| 能力 | 能做什么 | 工具数 | 独立端点 | 文档 |
+| --- | --- | --- | --- | --- |
+| 建站与发布 | 查看站点与文件、AI 生成、对话改站、上传 ZIP、预览、发布、绑定域名、域名解析重试 | 19 | `/api/mcp/sites` | [sites.md](./sites.md) |
+| 上线验收与接管 | 独立验收、接管 IDE 部署、部署策略与四平台配置 | 17 | `/api/mcp/publish` | [docs/31](../../31-ide-first-mcp-publish.md) |
+| 站点增强与获客 | 询盘与线索、在线客服、访客登录、订阅、追踪与合规、SEO/GEO 体检、报价、样品单、预约、导出、经营分析 | 43 | `/api/mcp/growth` | [growth.md](./growth.md) |
+| 营销邮件与自动化 | 订阅者、列表、模板、发信通道、活动发送、自动化、抑制名单、费用试算 | 30 | `/api/mcp/marketing` | [marketing.md](./marketing.md) |
+| 社媒分发 | 内容草稿、合规检测、任务领取、发布回传、表现数据 | 16 | `/api/mcp/social` | [social.md](./social.md) |
+| Agent 工作台 | 任务、技能仓库、按站点知识库、计划、审批、治理、交付物与周复盘 | 32 | `/api/mcp/agent` | [agent.md](./agent.md) |
+| 账号 | `whoami`、`capabilities`（每个模块端点都提供） | 2 | — | 本文 |
 
 ## 端点与认证
 
 ```text
-POST https://bweb.help/api/mcp
+POST https://bweb.help/api/mcp            # 全部工具（兼容旧客户端）
+POST https://bweb.help/api/mcp/sites      # 仅建站与发布
+POST https://bweb.help/api/mcp/publish    # 仅上线验收与接管
+POST https://bweb.help/api/mcp/growth     # 仅站点增强与获客
+POST https://bweb.help/api/mcp/marketing  # 仅营销邮件与自动化
+POST https://bweb.help/api/mcp/social     # 仅社媒分发
+POST https://bweb.help/api/mcp/agent      # 仅 Agent 工作台
 Authorization: Bearer cs_xxxxxxxx
 Content-Type: application/json
 ```
 
+- 推荐按模块接入：每个端点只会在 `tools/list` 返回本模块工具，`tools/call` 调用其他模块工具会返回 `module_denied`，避免上百个工具混在一个客户端里。
+- `whoami` 与 `capabilities` 在每个端点都可用；`capabilities` 会返回当前模块与可见工具。
 - 协议：MCP Streamable HTTP + JSON-RPC 2.0，支持 `tools/list` 与 `tools/call`。
 - 自建实例把 `https://bweb.help` 换成你的站点地址。
-- 只支持本地 stdio 的客户端使用零依赖桥接脚本 `cloudsite-mcp.mjs`，它会把本地 JSON-RPC 转发到上面的 HTTP 端点。
+- 只支持本地 stdio 的客户端使用零依赖桥接脚本 `cloudsite-mcp.mjs`，把 `CLOUDSITE_MODULE` 设为 `sites`、`growth`、`marketing`、`social` 或 `agent` 即可只转发该模块；不设置则转发全部工具。
 
 ## 自带 AI，不绑定平台
 

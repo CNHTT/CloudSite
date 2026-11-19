@@ -1,6 +1,6 @@
 # Agent workspace
 
-Agent mode (the intelligent organization) shares tasks, the skill library, per-site knowledge, plans and automation data with the console. These tools let MCP clients drive the Agent workspace, not just site operations. **29 tools**.
+Agent mode (the intelligent organization) shares tasks, the skill library, per-site knowledge, plans and automation data with the console. These tools let MCP clients drive the Agent workspace, not just site operations. **32 tools**.
 
 ## Onboarding and overview
 
@@ -51,6 +51,9 @@ Task types: `deploy_site`, `deploy_pending`, `deploy_failed`, `seo_audit`, `geo_
 | `agent_plan_cancel` | Write | Stop a plan and request the current step stop; requires `confirm=true` |
 | `agent_plan_retry_step` | Write | Retry a failed step in a paused / failed plan; requires `confirm=true` |
 | `agent_grant_request` | Write | Request a grant with site, tools, risk and purpose; cannot self-approve |
+| `agent_grants_list` | Read | Grants with status, tools, risk, purpose and expiry |
+| `agent_grant_decide` | Write | Approve, reject or revoke a grant; `confirm=true`; Admin/Owner only, never self-approval |
+| `agent_governance_overview` | Read | Governance: plan completion, artifact adoption, approval latency, stop rate, budgets, role KPIs and failure clusters |
 
 ## Artifacts and reviews
 

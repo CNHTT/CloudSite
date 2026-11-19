@@ -1,6 +1,6 @@
 # 站点增强：询盘、客服、订阅、分析与 SEO
 
-部署后注入的 `enhance.js` 会把询盘、在线客服、订阅、访客登录、转化事件与页面分析写回 Bweb。这组工具让 AI 直接读取和处理这些数据，共 **31 个工具**。
+部署后注入的 `enhance.js` 会把询盘、在线客服、订阅、访客登录、转化事件与页面分析写回 Bweb。这组工具让 AI 直接读取和处理这些数据，共 **43 个工具**。
 
 所有工具都在令牌所属账号、及令牌限定的站点范围内执行；只读令牌只能调用读工具。
 
@@ -97,6 +97,42 @@ enhance_seo_audit  site="acme-site"  mode="live"
 - 没有可用 Key 时，`enhance_api_keys_list` 返回控制台 `createUrl`，引导用户在 **站点增强 → API 接入** 创建。
 - 注入后页面会标记待部署；用 `enhance_embed_get` 复核后再 `deploy_site`。
 - 平台不会把站点 Key 或令牌返回给 MCP；也不要把它写进源码。
+
+## 报价单
+
+| 工具 | 读/写 | 作用 |
+| --- | --- | --- |
+| `quote_list` | 读 | 按站点 / 状态列出 B2B 报价单，最新在前 |
+| `quote_get` | 读 | 读取单个报价单的行项目、金额与状态 |
+| `quote_create` | 写 | 从询盘创建报价，或传 `customer_name` 独立创建；支持 `template` |
+| `quote_document` | 读 | 返回客户页与 HTML/PDF 下载链接 |
+| `quote_send` | 写 | 发送到客户邮箱，生成签名确认链接；按主钱包按封计费 |
+
+- `lead_id` 可选；独立报价传 `customer_name`（可选 email/company），行项目保持手动填写。
+- `template` 可选 `classic` / `modern` / `minimal` / `bold`，影响客户页、预览与 PDF。
+- 发送前需要客户邮箱与已配置的事务邮件通道；每次发送从主钱包扣费。
+
+## 样品单
+
+| 工具 | 读/写 | 作用 |
+| --- | --- | --- |
+| `sample_order_list` | 读 | 样品单列表（可按站点） |
+| `sample_order_get` | 读 | 单个样品单：行项目、收款、物流与文档链接 |
+| `sample_order_create` | 写 | 传 `quote_id` 从报价生成，或 `customer_name` + `items` 独立创建 |
+| `sample_order_send` | 写 | 重新发送样品单邮件，按主钱包计费 |
+| `sample_order_document` | 读 | 返回客户页与 HTML/PDF 下载链接 |
+
+- 创建时填写 `customer_email` 会自动发信并计费；未启用样品单或缺少收款方式会返回明确错误。
+- `template` 与报价共用四套模板。
+
+## 预约会议
+
+| 工具 | 读/写 | 作用 |
+| --- | --- | --- |
+| `booking_list` | 读 | 按站点 / 状态（`confirmed` / `cancelled`）列出预约 |
+| `booking_cancel` | 写 | 取消预约并触发正常的取消通知流程 |
+
+- 预约时段、时区、每日上限与通知邮箱仍在控制台 `/sites/{slug}/booking` 配置，MCP 不修改设置。
 
 ## 导出
 

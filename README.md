@@ -10,7 +10,7 @@
 
 噜噜是程序员。他把 AI 生成、域名、发布和获客接成了一条线。现在噜妹上新品，几分钟就能拿到能投广告的链接。
 
-跨境 B2B / 外贸独立站 · AI 生成 · 批量建站 · Cloudflare Pages / Firebase Hosting · 域名与 HTTPS
+跨境 B2B / 外贸独立站 · AI 生成 · 批量建站 · Cloudflare Pages / Firebase Hosting / EdgeOne Pages / Aliyun ESA · 域名与 HTTPS
 
 [简体中文](README.md) · [English](README.en.md)
 
@@ -19,6 +19,8 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![Cloudflare Pages](https://img.shields.io/badge/Cloudflare-Pages-F38020?logo=cloudflarepages&logoColor=white)](https://pages.cloudflare.com)
 [![Firebase Hosting](https://img.shields.io/badge/Firebase-Hosting-FFCA28?logo=firebase&logoColor=black)](https://firebase.google.com/docs/hosting)
+[![EdgeOne Pages](https://img.shields.io/badge/EdgeOne-Pages-0052D9)](https://edgeone.ai)
+[![Alibaba Cloud ESA](https://img.shields.io/badge/Alibaba%20Cloud-ESA-FF6A00)](https://www.aliyun.com/product/esa)
 
 [官网](https://bweb.help) · [免费注册](https://bweb.help/register) · [查看定价](https://bweb.help/pricing) · [MCP 接入](#快速开始)
 
@@ -50,7 +52,7 @@ Bweb 就是从这些重复的夜里长出来的。它把整条链路收进一个
 
 - **生成**：AI 对话生成整站，或直接上传你已有的静态页面
 - **批量**：粘贴列表或导入 CSV，几十上百个站自动生成、部署、绑域名
-- **上线**：直接调用 Cloudflare Pages / Firebase Hosting API，不需要安装 wrangler 或 Firebase CLI
+- **上线**：直接调用 Cloudflare Pages、Firebase Hosting、EdgeOne Pages 与阿里云 ESA API / CLI，不需要在本机安装 wrangler 或 Firebase CLI
 - **运营**：部署后的询盘表单、在线客服、邮箱订阅、转化回传、SEO/GEO 体检与营销自动化，全部开箱可用
 
 我们不替你持有域名，也不把你的客户锁在平台里：站点是静态文件，域名登记在你名下，邮箱列表可以随时导出，想搬走就搬走。Bweb 只负责把「做出来」到「投出去」之间的路修平。
@@ -90,8 +92,8 @@ Bweb 把重活接了过去：
 | --- | --- |
 | **生成** | AI 对话生成或整体改写页面；多语言站点按目标市场生成语言页面；素材库图片 / 图标可直接附加给 AI |
 | **装配** | 67 套模板（行业站、跨境广告页、活动发布站、公司信息站与电商落地页）× 8 种视觉风格；支持 ZIP / 文件夹上传与站群模板导入导出 |
-| **部署** | Cloudflare Pages Direct Upload（BLAKE3 资源哈希 + manifest）与 Firebase Hosting REST（gzip + SHA-256），无 CLI 依赖；也支持用自己的工具改好本地文件后，通过 MCP 小助手上传发布；支持批量任务、并发、实时日志与取消 |
-| **域名** | 一个项目绑定多个自定义域名；Cloudflare 自动写入代理 CNAME 并签发证书，Firebase 自动写入 A / TXT 记录或给出配置指引；域名服务支持可用性查询、注册指导与协助注册，域名登记在用户名下 |
+| **部署** | Cloudflare Pages Direct Upload（BLAKE3 资源哈希 + manifest）、Firebase Hosting REST（gzip + SHA-256）、EdgeOne Pages 与阿里云 ESA（官方 CLI）四平台；也支持用自己的工具改好本地文件后，通过 MCP 小助手上传发布；支持批量任务、并发、实时日志与取消 |
+| **域名** | 一个项目绑定多个自定义域名；Cloudflare 自动写入代理 CNAME；Firebase/EdgeOne/ESA 返回记录并在配置 Cloudflare 或阿里云 DNS 后自动写入，失败时给出可复制记录；ESA 自动申请免费证书并开启强制 HTTPS 301；域名登记在用户名下 |
 | **增长** | 询盘表单、在线客服、WhatsApp Business、邮箱订阅、营销邮件与自动化、广告转化回传、社媒分发与 UTM、数据导出、SEO/GEO 体检 |
 | **协作** | 账号级数据隔离、团队权限、单一钱包与账单、退款与红冲、统一审核台；支持微信 / PayPal / Web3 支付 / 对公转账与发票 |
 
@@ -108,11 +110,11 @@ Bweb 把重活接了过去：
 
 ### 🚀 部署
 
-- **双平台**：每个站点可独立选择 Cloudflare Pages 或 Firebase Hosting，随时切换。
+- **四平台**：每个站点可独立选择 Cloudflare Pages、Firebase Hosting、腾讯云 EdgeOne Pages 或阿里云 ESA Pages，随时切换。Cloudflare/Firebase 仅支持 Bweb 部署；EdgeOne/ESA 还支持 IDE 部署与导入后托管。
 - **无 CLI 依赖**：Cloudflare 走 Pages Direct Upload API，Firebase 走官方 Hosting REST API，不要求本机安装 wrangler / firebase-tools。
 - **自带工具改站**：用自己的编辑器、脚本或 AI 工具在本地修改站点，再通过 MCP 小助手 `upload_site`（少量文本）或 `create_upload_link`（整套 ZIP）上传，`deploy=true` 一步发布；不需要学习平台编辑器。
 - **批量建站**：粘贴列表或导入 CSV，按行选择 AI 生成 / 复用模板 / 内置模板；支持并发数、域名冲突策略、实时进度、日志与取消任务。
-- **证书与 DNS**：域名托管在 Cloudflare 时自动写入代理 CNAME；Firebase 域名在 Cloudflare 账号内时自动写入 DNS，否则给出明确的手动配置指引。
+- **证书与 DNS**：Cloudflare 自动写入代理 CNAME；Firebase/EdgeOne/ESA 返回记录，并在配置 Cloudflare 或阿里云 DNS 后自动写入，否则给出可复制的记录；ESA 还会自动申请免费 Let's Encrypt 证书并开启强制 HTTPS 301。
 - **在线预览**：桌面 / 手机双视图，预览链接可直接分享。
 
 ### 📈 增长（站点增强）
@@ -125,13 +127,14 @@ Bweb 把重活接了过去：
 - **转化回传**：广告平台转化事件回传与归因
 - **SEO / GEO 体检**：本地文件或线上域名检查 `index.html`、`robots.txt`、`llms.txt` / `llms-full.txt`、`sitemap.xml`，输出总分、逐项证据与修复建议，可一键交给 AI 修复
 - **数据分析与导出**：询盘、会话、订阅、访问与转化数据统一查看，支持导出
+- **报价 / 样品单 / 预约**：独立报价与样品单、四套文档模板、预览与 HTML/PDF 导出；客户页接受/拒绝、样品单收款与物流、预约会议记录
 - **社媒分发**：把内容排进分发计划，生成带 UTM 的链接并记录表现
 
 ### 🤖 Agent 与 API
 
-- **MCP 接入**：标准 MCP Streamable HTTP 端点 `https://bweb.help/api/mcp`。**不绑定 AI 平台**——Claude Code、Codex、Workbuddy、Cursor、n8n 或你自己的 MCP 客户端，一条命令接入。共 123 个工具，覆盖建站、文件、发布、域名、询盘、客服、订阅、营销邮件、社媒分发、经营分析与 Agent 工作台。
+- **MCP 接入**：标准 MCP Streamable HTTP 端点 `https://bweb.help/api/mcp`。**不绑定 AI 平台**——Claude Code、Codex、Workbuddy、Cursor、n8n 或你自己的 MCP 客户端，一条命令接入。共 159 个工具，覆盖建站、文件、发布、域名、询盘、客服、订阅、报价、样品单、预约、营销邮件、社媒分发、经营分析与 Agent 工作台；也可按 `/api/mcp/sites|publish|growth|marketing|social|agent` 分模块接入。
 - **自带 AI（BYO AI）**：Bweb 不要求你使用某一家模型或客户端。平台内置模型负责建站生成、Agent 任务与站内 AI 能力；日常运营、分析和服务客户，用你自己的 AI 工具通过 MCP 完成。换客户端不需要改接入方式。
-- **按能力分域**：建站与发布 15 个、站点增强 31 个、营销与自动化 30 个、社媒分发 16 个、Agent 工作台 29 个、账号 2 个；每个域都有独立文档，见下方「MCP 能力文档」。
+- **按能力分域**：建站与发布 19 个、上线验收与接管 17 个、站点增强与获客 43 个、营销与自动化 30 个、社媒分发 16 个、Agent 工作台 32 个、账号 2 个；每个域都有独立端点与文档，见下方「MCP 能力文档」。
 - **读写 / 只读令牌**：只读令牌的 `tools/list` 不包含任何写工具，适合交给第三方审计；令牌可限定站点范围、设置过期时间并随时撤销。
 - **高危确认与审计**：发送营销邮件、激活自动化、社媒派发等操作要求 `confirm=true`；每次调用记录令牌、工具、站点、IP 与 `request_id`。
 - **免插件 API**：`/api/v1` + 站点 Key，已有后端或第三方工具生成的页面也能接入增强能力。
@@ -234,8 +237,8 @@ MCP 小助手会调用 `upload_site`（少量文本文件）或 `create_upload_l
 | `create_site` / `generate_site` | 新建站点并用 AI 生成整站 |
 | `upload_site` / `create_upload_link` | 上传本地静态站（文本文件或整套 ZIP），可一步发布 |
 | `chat_site` | 对话式改站 |
-| `deploy_site` | 发布到 Cloudflare Pages / Firebase Hosting |
-| `bind_domain` | 绑定自定义域名 |
+| `deploy_site` | 发布到 Cloudflare Pages / Firebase Hosting / EdgeOne Pages / 阿里云 ESA |
+| `bind_domain` | 绑定自定义域名；配置 DNS 服务商后自动写入记录，ESA 自动证书与强制 HTTPS |
 | `enhance_seo_audit` | SEO / GEO 体检 |
 | `marketing_*` / `enhance_*` | 营销邮件、询盘、会话、订阅与分析 |
 
@@ -250,7 +253,7 @@ MCP 小助手会调用 `upload_site`（少量文本文件）或 `create_upload_l
 | 营销邮件与自动化 | [docs/mcp/marketing.md](docs/mcp/marketing.md) | 30 | 订阅者、列表、模板、发信通道、活动发送、自动化、抑制名单、费用试算 |
 | 社媒分发 | [docs/mcp/social.md](docs/mcp/social.md) | 16 | 内容草稿、合规检测、任务领取、发布回传、表现数据 |
 | Agent 工作台 | [docs/mcp/agent.md](docs/mcp/agent.md) | 29 | 任务、技能仓库、按站点知识库、计划、审批、交付物与周复盘 |
-| 接入总览 | [docs/mcp/README.md](docs/mcp/README.md) | 123 | 端点、令牌、客户端配置、权限、限流与排查 |
+| 接入总览 | [docs/mcp/README.md](docs/mcp/README.md) | 159 | 端点、令牌、客户端配置、权限、限流与排查 |
 
 完整工具清单以 `tools/list` 返回为准。
 

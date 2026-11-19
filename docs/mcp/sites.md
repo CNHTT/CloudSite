@@ -1,6 +1,6 @@
 # 建站、文件与发布
 
-覆盖站点的完整生命周期：查看、生成、改站、上传、预览、发布和绑定域名。共 **15 个工具**。
+覆盖站点的完整生命周期：查看、生成、改站、上传、预览、发布和绑定域名。共 **19 个工具**。
 
 **可以用自己的工具改站：** 在自己的编辑器、脚本或 AI 工具里改好本地文件，再通过 MCP 小助手 `upload_site` / `create_upload_link` 上传；不需要学习平台编辑器，也不需要安装 CLI。
 
@@ -25,10 +25,12 @@
 | `create_upload_link` | 写 | 生成单次使用的 ZIP 上传链接，适合整套静态站 |
 | `write_site_file` | 写 | 写入 / 替换单个文本文件，并标记为待部署 |
 | `delete_site_file` | 写 | 删除单个文件；`index.html` 不会被删除 |
-| `deploy_site` | 写 | 发布到 Cloudflare Pages 或 Firebase Hosting |
-| `bind_domain` | 写 | 绑定自定义域名；Cloudflare 托管时自动写 DNS 并签发 HTTPS |
+| `deploy_site` | 写 | 发布到 Cloudflare Pages / Firebase Hosting / EdgeOne Pages / ESA Pages；CF/FB 仅 Bweb 部署，EO/ESA 也支持 IDE 部署 |
+| `bind_domain` | 写 | 绑定自定义域名；Cloudflare 自动写 CNAME；Firebase/EdgeOne/ESA 在配置 DNS 服务商后自动写入，否则返回可复制记录；ESA 自动免费证书 + 强制 HTTPS |
+| `domain_dns_apply` | 写 | 重试把已绑定域名的 DNS 记录写入 Cloudflare/阿里云 DNS；覆盖冲突需用户确认 |
+| `domain_status_refresh` | 读 | 刷新域名 DNS、证书与 ESA 强制 HTTPS 状态 |
 
-> 只读令牌只能使用表中的读工具。发布与绑定域名要求账号已在控制台配置好 Cloudflare / Firebase 凭据。
+> 只读令牌只能使用表中的读工具。发布与绑定域名要求账号已在控制台配置好站点所选平台的凭据（Cloudflare / Firebase / EdgeOne / ESA）。
 
 ## 典型建站流程
 
@@ -76,7 +78,8 @@ curl -F "archive=@/tmp/site.zip" "https://bweb.help/api/mcp/upload?ticket=..."
 
 - 链接单次使用，默认 30 分钟有效，可设 5–120 分钟；`deploy=true` 会在上传完成后自动发布。
 - ZIP 根目录或单一子目录中必须包含 `index.html`，最外层目录会自动去掉。
-- 单文件 ≤25MB，解压后总量 ≤100MB，文件数 ≤2000。
+- 单文件 ≤25MB，ZIP ≤120MB，解压后总量 ≤100MB，文件数 ≤2000。
+- 账号另有 100MB 基础存储额度，由素材、站点源文件与 OSS 备份共用；购买存储包可扩展，超出返回 `storage_quota_exceeded`。
 - 上传会**替换**站点现有全部文件；`.DS_Store` 等系统文件自动忽略。
 
 **方式二：`upload_site` 内联上传（适合少量文本文件）**
@@ -107,5 +110,5 @@ deploy_site      slug="acme-robotics"
 ## 预览与域名
 
 - `preview_site` 返回无需登录的签名链接，CSS、图片等资源同样可用；链接只对该站点有效，默认 24 小时失效，可设 1–72 小时。拿到链接的人都能查看，请勿分享给不信任的人。
-- `bind_domain` 支持一个站点绑定多个自定义域名。Cloudflare 托管的域名会自动写入代理 CNAME 并签发证书；Firebase 域名会尝试写入 A / TXT 记录，无法自动配置时返回明确的手动指引。
+- `bind_domain` 支持一个站点绑定多个自定义域名。Cloudflare 自动写入代理 CNAME；Firebase/EdgeOne/ESA 返回记录并在配置 Cloudflare 或阿里云 DNS 后自动写入，失败时保留可复制记录；`domain_dns_apply` 可在配置好 DNS 服务商后重试，`domain_status_refresh` 刷新证书与 HTTPS 状态。ESA 还会自动申请免费 Let's Encrypt 证书并开启强制 HTTPS 301。
 - 站点是静态文件，域名登记在用户名下，可随时导出或迁移。

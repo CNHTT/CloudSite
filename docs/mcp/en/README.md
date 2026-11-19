@@ -2,21 +2,23 @@
 
 Bweb exposes a standard **MCP Streamable HTTP** endpoint. Create a token and connect Claude Code, Codex, Workbuddy, Cursor, n8n or any MCP client to build, edit, publish and bind domains, then run inquiries, chat, subscriptions, email campaigns, social distribution and analytics — without a plugin or browser extension, and without locking you into any AI platform.
 
-The server currently exposes **123 tools**, grouped by capability:
+The server currently exposes **159 tools**, grouped by capability:
 
 | Capability | What it covers | Tools | Docs |
 | --- | --- | --- | --- |
-| Sites and publishing | Inspect sites and files, AI generation, chat edits, ZIP upload, preview, deploy, custom domains | 15 | [sites.md](./sites.md) |
-| Site growth | Inquiries and leads, live chat, visitor accounts, subscriptions, tracking and consent, SEO/GEO audits, external-site embedding, exports, analytics | 31 | [growth.md](./growth.md) |
+| Sites and publishing | Inspect sites and files, AI generation, chat edits, ZIP upload, preview, deploy, custom domains, DNS retry | 19 | [sites.md](./sites.md) |
+| Launch verification and adoption | Verify any URL, adopt IDE-deployed sites, deployment policy and four-provider setup | 17 | [docs/31](../../../31-ide-first-mcp-publish.md) |
+| Site growth | Inquiries and leads, live chat, visitor accounts, subscriptions, tracking and consent, SEO/GEO audits, quotes, sample orders, bookings, exports, analytics | 43 | [growth.md](./growth.md) |
 | Marketing email and automation | Subscribers, lists, templates, sending channels, campaigns, automations, suppression list, price quotes | 30 | [marketing.md](./marketing.md) |
 | Social distribution | Post drafts, compliance checks, job claiming, publish reporting, metrics | 16 | [social.md](./social.md) |
-| Agent workspace | Tasks, skill library, per-site knowledge, plans, approvals, artifacts and reviews | 29 | [agent.md](./agent.md) |
+| Agent workspace | Tasks, skill library, per-site knowledge, plans, approvals, artifacts and reviews | 32 | [agent.md](./agent.md) |
 | Account | `whoami`, `capabilities` | 2 | This page |
 
 ## Endpoint and authentication
 
 ```text
 POST https://bweb.help/api/mcp
+POST https://bweb.help/api/mcp/sites | growth | marketing | social | agent | publish
 Authorization: Bearer cs_xxxxxxxx
 Content-Type: application/json
 ```

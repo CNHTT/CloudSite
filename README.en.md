@@ -10,7 +10,7 @@ Lumei runs a cross-border e-commerce business and her own independent site. Ever
 
 Lulu is a programmer. He wired AI generation, domains, deployment and growth into one path. Now a new product gets an ad-ready link in minutes.
 
-Cross-border B2B / independent sites · AI generation · Batch building · Cloudflare Pages / Firebase Hosting · Domains and HTTPS
+Cross-border B2B / independent sites · AI generation · Batch building · Cloudflare Pages / Firebase Hosting / EdgeOne Pages / Alibaba Cloud ESA · Domains and HTTPS
 
 [简体中文](README.md) · [English](README.en.md)
 
@@ -19,6 +19,8 @@ Cross-border B2B / independent sites · AI generation · Batch building · Cloud
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![Cloudflare Pages](https://img.shields.io/badge/Cloudflare-Pages-F38020?logo=cloudflarepages&logoColor=white)](https://pages.cloudflare.com)
 [![Firebase Hosting](https://img.shields.io/badge/Firebase-Hosting-FFCA28?logo=firebase&logoColor=black)](https://firebase.google.com/docs/hosting)
+[![EdgeOne Pages](https://img.shields.io/badge/EdgeOne-Pages-0052D9)](https://edgeone.ai)
+[![Alibaba Cloud ESA](https://img.shields.io/badge/Alibaba%20Cloud-ESA-FF6A00)](https://www.aliyun.com/product/esa)
 
 [Website](https://bweb.help) · [Get started free](https://bweb.help/en/register) · [Pricing](https://bweb.help/en/pricing) · [MCP setup](#quick-start)
 
@@ -50,7 +52,7 @@ Bweb grew out of those repeated late nights. It puts the whole path in one conso
 
 - **Generate** — build a full site through an AI conversation, or upload static pages you already have
 - **Batch** — paste a list or import a CSV; generate, deploy, and bind domains for dozens or hundreds of sites
-- **Ship** — call the Cloudflare Pages / Firebase Hosting APIs directly; no wrangler or Firebase CLI required
+- **Ship** — call Cloudflare Pages, Firebase Hosting, EdgeOne Pages and Alibaba Cloud ESA (official CLI) directly; no wrangler or Firebase CLI install required
 - **Operate** — inquiry forms, live chat, email subscriptions, conversion tracking, SEO/GEO audits, and marketing automation, ready after deploy
 
 We don't hold your domain for you, and we don't lock your customers inside the platform: sites are static files, domains are registered in your name, your email list can be exported at any time, and you can leave whenever you want. Bweb only smooths the road between "it's built" and "it's live."
@@ -90,8 +92,8 @@ Bweb handles the heavy lifting:
 | --- | --- |
 | **Generate** | AI builds or rewrites whole pages; multilingual sites generate up to 4 language versions in one pass; attach library images and icons to the prompt |
 | **Assemble** | 67 templates (industry sites, cross-border ad pages, event launch pages, company sites and e-commerce landing pages) × 8 visual styles; ZIP / folder upload and site-group import / export |
-| **Deploy** | Cloudflare Pages Direct Upload (BLAKE3 asset hashing + manifest) and Firebase Hosting REST (gzip + SHA-256), no CLI dependency; edit locally with your own tools and upload through the MCP assistant; batch jobs with concurrency, live logs, and cancellation |
-| **Domains** | Multiple custom domains per project; Cloudflare proxied CNAME plus certificate handled automatically; Firebase A / TXT records written automatically or explained clearly. Domain services include availability lookup, registration guidance, and assisted registration — the domain is registered in your name |
+| **Deploy** | Cloudflare Pages Direct Upload (BLAKE3 asset hashing + manifest), Firebase Hosting REST (gzip + SHA-256), EdgeOne Pages and Alibaba Cloud ESA (official CLI); edit locally with your own tools and upload through the MCP assistant; batch jobs with concurrency, live logs, and cancellation |
+| **Domains** | Multiple custom domains per project. Cloudflare writes the proxied CNAME; Firebase/EdgeOne/ESA records are auto-written when a Cloudflare or Aliyun DNS provider is configured, otherwise copyable; ESA applies a free certificate and force-HTTPS 301. Domain services include availability lookup, registration guidance and assisted registration — the domain stays in your name |
 | **Grow** | Inquiry forms, live chat, WhatsApp Business, email subscriptions and campaigns, ad conversion tracking, social distribution with UTM, data export, SEO/GEO audits |
 | **Collaborate** | Per-account data isolation, team permissions, a single wallet and billing, refunds and credit notes, a unified review desk; pay by WeChat / PayPal / Web3 payments / bank transfer, with invoices |
 
@@ -108,11 +110,11 @@ Bweb handles the heavy lifting:
 
 ### 🚀 Deploy
 
-- **Two targets** — each site can use Cloudflare Pages or Firebase Hosting, and can switch at any time.
+- **Four targets** — each site can use Cloudflare Pages, Firebase Hosting, Tencent EdgeOne Pages or Alibaba Cloud ESA Pages. Cloudflare/Firebase are Bweb-managed only; EdgeOne/ESA also support IDE deployment and imported sites.
 - **No CLI required** — Cloudflare goes through the Pages Direct Upload API, Firebase through the official Hosting REST API. No local wrangler or firebase-tools install.
 - **Bring your own toolchain** — edit the site locally with your editor, scripts or AI tools, then upload it through the MCP assistant with `upload_site` (small text sites) or `create_upload_link` (full ZIP) and deploy in the same call. No platform editor required.
 - **Batch building** — paste a list or import CSV, choose AI generation / template reuse / built-in template per row; concurrency, domain conflict strategy, live progress, logs, and cancellation.
-- **Certificates and DNS** — proxied CNAME written automatically for Cloudflare-hosted domains; for Firebase, DNS is written automatically when the domain is in a connected Cloudflare account, otherwise you get clear manual instructions.
+- **Certificates and DNS** — Cloudflare writes the proxied CNAME automatically; Firebase/EdgeOne/ESA return records and auto-write them when a Cloudflare or Aliyun DNS provider is configured, otherwise you get copyable records. ESA also applies a free Let's Encrypt certificate and force-HTTPS 301.
 - **Live preview** — desktop and mobile views, with a shareable preview link.
 
 ### 📈 Grow (site enhancement)
@@ -125,13 +127,14 @@ Drop one `enhance.js` on the deployed page and you get:
 - **Conversion tracking** — ad-platform conversion events and attribution
 - **SEO / GEO audit** — check `index.html`, `robots.txt`, `llms.txt` / `llms-full.txt`, and `sitemap.xml` locally or against a live domain; get a total score, per-item evidence, and prioritized fixes that can be handed back to the AI
 - **Analytics and export** — inquiries, conversations, subscriptions, traffic, and conversions in one place, with export
+- **Quotations / sample orders / bookings** — standalone documents, four templates, preview plus HTML/PDF export, customer accept/decline, sample payments and shipments, booking records
 - **Social distribution** — schedule content, generate UTM links, and record performance
 
 ### 🤖 Agents and APIs
 
-- **MCP** — a standard MCP Streamable HTTP endpoint at `https://bweb.help/api/mcp`. **No AI platform lock-in**: connect Claude Code, Codex, Workbuddy, Cursor, n8n or your own MCP client with one command. 123 tools cover sites, files, publishing, domains, inquiries, chat, subscriptions, marketing email, social distribution, analytics and the Agent workspace.
+- **MCP** — a standard MCP Streamable HTTP endpoint at `https://bweb.help/api/mcp`. **No AI platform lock-in**: connect Claude Code, Codex, Workbuddy, Cursor, n8n or your own MCP client with one command. 159 tools cover sites, files, publishing, domains, inquiries, chat, subscriptions, quotations, sample orders, bookings, marketing email, social distribution, analytics and the Agent workspace; module endpoints are available at `/api/mcp/sites|publish|growth|marketing|social|agent`.
 - **Bring your own AI** — Bweb does not require a specific model or client. Built-in models power site generation, Agent tasks and on-site AI features; day-to-day operations, analytics and customer conversations run through your own AI over MCP. Switching clients does not change the setup.
-- **Organized by capability** — sites and publishing 15, site growth 31, marketing and automation 30, social distribution 16, Agent workspace 29, account 2. Each domain has its own doc under “MCP docs” below.
+- **Organized by capability** — sites and publishing 19, launch verification and adoption 17, site growth 43, marketing and automation 30, social distribution 16, Agent workspace 32, account 2. Each domain has its own doc under “MCP docs” below.
 - **Read-write and read-only tokens** — read-only tokens never expose write tools in `tools/list`, so they are safe to hand to a third party for review. Tokens can be scoped to specific sites, given an expiry, and revoked at any time.
 - **Explicit confirmation and audit** — sending campaigns, activating automations and social dispatch require `confirm=true`; every call records the token, tool, site, IP and `request_id`.
 - **Plugin-free API** — `/api/v1` with a site key lets pages generated by third-party tools use the enhancement features without a backend.
@@ -234,7 +237,7 @@ Common tools:
 | `create_site` / `generate_site` | Create a site and generate all pages with AI |
 | `upload_site` / `create_upload_link` | Upload a local static site (text files or full ZIP), optionally deploying in the same call |
 | `chat_site` | Edit a site through conversation |
-| `deploy_site` | Publish to Cloudflare Pages / Firebase Hosting |
+| `deploy_site` | Publish to Cloudflare Pages / Firebase Hosting / EdgeOne Pages / ESA Pages |
 | `bind_domain` | Attach a custom domain |
 | `enhance_seo_audit` | SEO / GEO audit |
 | `marketing_*` / `enhance_*` | Marketing email, inquiries, chat, subscriptions, analytics |
@@ -250,7 +253,7 @@ The full tool list is available in the console under **Settings → MCP / Agent*
 | Marketing email and automation | [docs/mcp/en/marketing.md](docs/mcp/en/marketing.md) | 30 | Subscribers, lists, templates, sending channels, campaigns, automations, suppression, price quotes |
 | Social distribution | [docs/mcp/en/social.md](docs/mcp/en/social.md) | 16 | Post drafts, compliance checks, job claiming, publish reporting, metrics |
 | Agent workspace | [docs/mcp/en/agent.md](docs/mcp/en/agent.md) | 29 | Tasks, skill library, per-site knowledge, plans, approvals, artifacts and reviews |
-| Setup overview | [docs/mcp/en/README.md](docs/mcp/en/README.md) | 123 | Endpoint, tokens, client setup, permissions, limits and troubleshooting |
+| Setup overview | [docs/mcp/en/README.md](docs/mcp/en/README.md) | 159 | Endpoint, tokens, client setup, permissions, limits and troubleshooting |
 
 The authoritative tool list is whatever `tools/list` returns.
 
