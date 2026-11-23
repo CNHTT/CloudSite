@@ -104,6 +104,7 @@ Bweb 把重活接了过去：
 - **AI 建站 / 改站**：接入 Anthropic Messages API 或任意 OpenAI 兼容接口（OpenAI、DeepSeek、本地模型均可）。在站点详情里描述修改要求，AI 直接输出完整 HTML，保存即刷新预览。
 - **多语言**：语言页面按目标市场配置，每种语言生成独立静态页面（`index.html`、`en/index.html`…），自动写入 `hreflang`、语言切换器与 RTL 样式。
 - **行业模板**：67 套可直接上线的模板，覆盖行业站、跨境广告页、活动发布站、公司信息站与电商落地页，内置文案、产品区、FAQ 与询盘区；8 种视觉风格可切换，也可继续交给 AI 改写。
+- **Bweb Studio**：区块库、设计 Token、响应式预览、页面管理、命令面板、评论与版本恢复；支持图生图与商品批量导入，改完可随时回到上一版。
 - **手动内容编辑**：按区块列出页面文字、标题、搜索描述与图片，只改对应源码位置，CSS / JS / 内联 SVG 保持不变。
 - **素材库**：图片、图标、SVG / ICO 统一管理，建站小助手可一次附加最多 8 个素材。
 - **站群迁移**：整组站点打包为 ZIP 导出，在另一个账号导入。
@@ -122,9 +123,9 @@ Bweb 把重活接了过去：
 部署完成后，在页面注入一个 `enhance.js` 即可获得：
 
 - **询盘表单**：自动识别页面上已有的表单，或生成标准询盘表单，提交直达后台
-- **在线客服**：站内会话 + WhatsApp Business Cloud API，支持 AI 对话、素材附件与消息撤销
+- **在线客服**：站内会话 + WhatsApp Business Cloud API，支持 AI 对话、素材附件、消息撤销与引用回复；新消息、转人工、人工回复与会话结束可推送到企业微信 / 钉钉 / 飞书 / Slack / Discord / Telegram，也可用站点 `sk_live_` 密钥通过回复 API 接入自有客服台
 - **邮箱订阅与营销邮件**：订阅收集、确认邮件、营销活动、A/B 测试、发送时区窗口、退信熔断、DMARC / 黑名单检测
-- **转化回传**：广告平台转化事件回传与归因
+- **转化回传**：线索级 UTM / Click ID 归因、转化重试与阶段回传；Meta / TikTok / GA4 / Microsoft / LinkedIn 浏览器像素支持 Consent Mode v2
 - **SEO / GEO 体检**：本地文件或线上域名检查 `index.html`、`robots.txt`、`llms.txt` / `llms-full.txt`、`sitemap.xml`，输出总分、逐项证据与修复建议，可一键交给 AI 修复
 - **数据分析与导出**：询盘、会话、订阅、访问与转化数据统一查看，支持导出
 - **报价 / 样品单 / 预约**：独立报价与样品单、四套文档模板、预览与 HTML/PDF 导出；客户页接受/拒绝、样品单收款与物流、预约会议记录
@@ -132,13 +133,13 @@ Bweb 把重活接了过去：
 
 ### 🤖 Agent 与 API
 
-- **MCP 接入**：标准 MCP Streamable HTTP 端点 `https://bweb.help/api/mcp`。**不绑定 AI 平台**——Claude Code、Codex、Workbuddy、Cursor、n8n 或你自己的 MCP 客户端，一条命令接入。共 159 个工具，覆盖建站、文件、发布、域名、询盘、客服、订阅、报价、样品单、预约、营销邮件、社媒分发、经营分析与 Agent 工作台；也可按 `/api/mcp/sites|publish|growth|marketing|social|agent` 分模块接入。
+- **MCP 接入**：标准 MCP Streamable HTTP 端点 `https://bweb.help/api/mcp`。**不绑定 AI 平台**——Claude Code、Codex、Workbuddy、Cursor、n8n 或你自己的 MCP 客户端，一条命令接入。共 161 个工具，覆盖建站、文件、发布、域名、询盘、客服、订阅、报价、样品单、预约、营销邮件、社媒分发、经营分析与 Agent 工作台；也可按 `/api/mcp/sites|publish|growth|marketing|social|agent` 分模块接入。
 - **自带 AI（BYO AI）**：Bweb 不要求你使用某一家模型或客户端。平台内置模型负责建站生成、Agent 任务与站内 AI 能力；日常运营、分析和服务客户，用你自己的 AI 工具通过 MCP 完成。换客户端不需要改接入方式。
-- **按能力分域**：建站与发布 19 个、上线验收与接管 17 个、站点增强与获客 43 个、营销与自动化 30 个、社媒分发 16 个、Agent 工作台 32 个、账号 2 个；每个域都有独立端点与文档，见下方「MCP 能力文档」。
+- **按能力分域**：建站与发布 21 个、上线验收与接管 17 个、站点增强与获客 43 个、营销与自动化 30 个、社媒分发 16 个、Agent 工作台 32 个、账号 2 个；每个域都有独立端点与文档，见下方「MCP 能力文档」。
 - **读写 / 只读令牌**：只读令牌的 `tools/list` 不包含任何写工具，适合交给第三方审计；令牌可限定站点范围、设置过期时间并随时撤销。
 - **高危确认与审计**：发送营销邮件、激活自动化、社媒派发等操作要求 `confirm=true`；每次调用记录令牌、工具、站点、IP 与 `request_id`。
 - **免插件 API**：`/api/v1` + 站点 Key，已有后端或第三方工具生成的页面也能接入增强能力。
-- **零依赖桥接**：仓库内的 `mcp/cloudsite-mcp.mjs` 用于只支持 stdio 的客户端。脚本文件名与环境变量名保留 `cloudsite` / `CLOUDSITE_` 前缀以兼容旧配置，产品品牌为 Bweb。
+- **零依赖桥接**：只支持 stdio 的客户端可下载 [`cloudsite-mcp.mjs`](https://bweb.help/cloudsite-mcp.mjs)。脚本文件名与环境变量名保留 `cloudsite` / `CLOUDSITE_` 前缀以兼容旧配置，产品品牌为 Bweb。
 
 ## 快速开始
 
@@ -237,6 +238,7 @@ MCP 小助手会调用 `upload_site`（少量文本文件）或 `create_upload_l
 | `create_site` / `generate_site` | 新建站点并用 AI 生成整站 |
 | `upload_site` / `create_upload_link` | 上传本地静态站（文本文件或整套 ZIP），可一步发布 |
 | `chat_site` | 对话式改站 |
+| `site_content_get` / `site_content_translate` | 读取可编辑文字字段，并按语言自动翻译到其他语言页 |
 | `deploy_site` | 发布到 Cloudflare Pages / Firebase Hosting / EdgeOne Pages / 阿里云 ESA |
 | `bind_domain` | 绑定自定义域名；配置 DNS 服务商后自动写入记录，ESA 自动证书与强制 HTTPS |
 | `enhance_seo_audit` | SEO / GEO 体检 |
@@ -253,7 +255,7 @@ MCP 小助手会调用 `upload_site`（少量文本文件）或 `create_upload_l
 | 营销邮件与自动化 | [docs/mcp/marketing.md](docs/mcp/marketing.md) | 30 | 订阅者、列表、模板、发信通道、活动发送、自动化、抑制名单、费用试算 |
 | 社媒分发 | [docs/mcp/social.md](docs/mcp/social.md) | 16 | 内容草稿、合规检测、任务领取、发布回传、表现数据 |
 | Agent 工作台 | [docs/mcp/agent.md](docs/mcp/agent.md) | 29 | 任务、技能仓库、按站点知识库、计划、审批、交付物与周复盘 |
-| 接入总览 | [docs/mcp/README.md](docs/mcp/README.md) | 159 | 端点、令牌、客户端配置、权限、限流与排查 |
+| 接入总览 | [docs/mcp/README.md](docs/mcp/README.md) | 161 | 端点、令牌、客户端配置、权限、限流与排查 |
 
 完整工具清单以 `tools/list` 返回为准。
 

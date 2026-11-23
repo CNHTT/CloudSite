@@ -1,6 +1,6 @@
 # Sites, files and publishing
 
-The full site lifecycle: inspect, generate, edit, upload, preview, deploy and bind domains. **19 tools**.
+The full site lifecycle: inspect, generate, edit, upload, preview, deploy and bind domains. **21 tools**.
 
 **Edit with your own tools:** change the files locally with your editor, scripts or AI tools, then upload them through the MCP assistant with `upload_site` / `create_upload_link`. No platform editor and no CLI required.
 
@@ -21,6 +21,8 @@ edit locally → upload_site / create_upload_link → preview_site → deploy_si
 | `create_site` | Write | Create a site (name, product, target languages) |
 | `generate_site` | Write | Generate a full site with the platform AI; style, accent color and language supported |
 | `chat_site` | Write | Edit a site conversationally with section-level targeting, not a full rewrite |
+| `site_content_get` | Read | List language pages and editable fields (`t0` ids, tags, styles, language) |
+| `site_content_translate` | Write | Detect the language of one text field and translate it into the site's other language pages |
 | `upload_site` | Write | Inline upload of text files or base64 binaries, optionally deploy |
 | `create_upload_link` | Write | Create a single-use ZIP upload link for a full static site |
 | `write_site_file` | Write | Write or replace one text file and mark the site for deployment |

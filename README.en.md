@@ -103,7 +103,8 @@ Bweb handles the heavy lifting:
 
 - **AI site generation and editing** — works with the Anthropic Messages API or any OpenAI-compatible endpoint (OpenAI, DeepSeek, local models). Describe a change on the site page and the AI rewrites the full HTML; save and the preview refreshes.
 - **Multilingual** — language pages configured for the target markets, each rendered as its own static page (`index.html`, `en/index.html`, …) with `hreflang`, a shared language switcher, and RTL support.
-- **Industry templates** — 62 production-ready templates covering industry sites, cross-border ad pages, company sites, and e-commerce landing pages, with copy, product sections, FAQ, and inquiry blocks; switch between 8 visual styles or keep editing with AI.
+- **Industry templates** — 67 production-ready templates covering industry sites, cross-border ad pages, event launch pages, company sites, and e-commerce landing pages, with copy, product sections, FAQ, and inquiry blocks; switch between 8 visual styles or keep editing with AI.
+- **Bweb Studio** — block library, design tokens, responsive preview, page management, command palette, comments and version restore; image-to-image and bulk product import included.
 - **Manual content editing** — edit page text, titles, meta descriptions, and images block by block; only the matching source is touched, while CSS / JS / inline SVG stay intact.
 - **Asset library** — manage images, icons, and SVG / ICO assets; attach up to 8 assets to a single AI request.
 - **Site-group portability** — export a group of sites as a ZIP and import it into another account.
@@ -122,9 +123,9 @@ Bweb handles the heavy lifting:
 Drop one `enhance.js` on the deployed page and you get:
 
 - **Inquiry forms** — detect forms already on the page or generate a standard inquiry form; submissions land in the console
-- **Live chat** — on-site conversations plus WhatsApp Business Cloud API, with AI replies, asset attachments, and message revocation
+- **Live chat** — on-site conversations plus WhatsApp Business Cloud API, with AI replies, asset attachments, message revocation and quoted replies; new messages, handoffs, agent replies and closed sessions can go to WeCom, DingTalk, Feishu, Slack, Discord or Telegram, and an `sk_live_` site key can connect an external support desk through the reply API
 - **Email subscriptions and campaigns** — subscription capture, confirmation emails, campaigns, A/B tests, send-time windows, bounce circuit breakers, DMARC / blocklist checks
-- **Conversion tracking** — ad-platform conversion events and attribution
+- **Conversion tracking** — lead-level UTM / Click ID attribution, retried conversions and stage callbacks; Meta / TikTok / GA4 / Microsoft / LinkedIn browser pixels honor Consent Mode v2
 - **SEO / GEO audit** — check `index.html`, `robots.txt`, `llms.txt` / `llms-full.txt`, and `sitemap.xml` locally or against a live domain; get a total score, per-item evidence, and prioritized fixes that can be handed back to the AI
 - **Analytics and export** — inquiries, conversations, subscriptions, traffic, and conversions in one place, with export
 - **Quotations / sample orders / bookings** — standalone documents, four templates, preview plus HTML/PDF export, customer accept/decline, sample payments and shipments, booking records
@@ -132,13 +133,13 @@ Drop one `enhance.js` on the deployed page and you get:
 
 ### 🤖 Agents and APIs
 
-- **MCP** — a standard MCP Streamable HTTP endpoint at `https://bweb.help/api/mcp`. **No AI platform lock-in**: connect Claude Code, Codex, Workbuddy, Cursor, n8n or your own MCP client with one command. 159 tools cover sites, files, publishing, domains, inquiries, chat, subscriptions, quotations, sample orders, bookings, marketing email, social distribution, analytics and the Agent workspace; module endpoints are available at `/api/mcp/sites|publish|growth|marketing|social|agent`.
+- **MCP** — a standard MCP Streamable HTTP endpoint at `https://bweb.help/api/mcp`. **No AI platform lock-in**: connect Claude Code, Codex, Workbuddy, Cursor, n8n or your own MCP client with one command. 161 tools cover sites, files, publishing, domains, inquiries, chat, subscriptions, quotations, sample orders, bookings, marketing email, social distribution, analytics and the Agent workspace; module endpoints are available at `/api/mcp/sites|publish|growth|marketing|social|agent`.
 - **Bring your own AI** — Bweb does not require a specific model or client. Built-in models power site generation, Agent tasks and on-site AI features; day-to-day operations, analytics and customer conversations run through your own AI over MCP. Switching clients does not change the setup.
-- **Organized by capability** — sites and publishing 19, launch verification and adoption 17, site growth 43, marketing and automation 30, social distribution 16, Agent workspace 32, account 2. Each domain has its own doc under “MCP docs” below.
+- **Organized by capability** — sites and publishing 21, launch verification and adoption 17, site growth 43, marketing and automation 30, social distribution 16, Agent workspace 32, account 2. Each domain has its own doc under “MCP docs” below.
 - **Read-write and read-only tokens** — read-only tokens never expose write tools in `tools/list`, so they are safe to hand to a third party for review. Tokens can be scoped to specific sites, given an expiry, and revoked at any time.
 - **Explicit confirmation and audit** — sending campaigns, activating automations and social dispatch require `confirm=true`; every call records the token, tool, site, IP and `request_id`.
 - **Plugin-free API** — `/api/v1` with a site key lets pages generated by third-party tools use the enhancement features without a backend.
-- **Zero-dependency bridge** — `mcp/cloudsite-mcp.mjs` is included for clients that only speak stdio. The file name and `CLOUDSITE_` env vars keep the legacy prefix for backward compatibility; the product brand is Bweb.
+- **Zero-dependency bridge** — clients that only speak stdio can download [`cloudsite-mcp.mjs`](https://bweb.help/cloudsite-mcp.mjs). The file name and `CLOUDSITE_` env vars keep the legacy prefix for backward compatibility; the product brand is Bweb.
 
 ## Quick start
 
@@ -237,6 +238,7 @@ Common tools:
 | `create_site` / `generate_site` | Create a site and generate all pages with AI |
 | `upload_site` / `create_upload_link` | Upload a local static site (text files or full ZIP), optionally deploying in the same call |
 | `chat_site` | Edit a site through conversation |
+| `site_content_get` / `site_content_translate` | Inspect editable text fields and auto-translate them into other language pages |
 | `deploy_site` | Publish to Cloudflare Pages / Firebase Hosting / EdgeOne Pages / ESA Pages |
 | `bind_domain` | Attach a custom domain |
 | `enhance_seo_audit` | SEO / GEO audit |
@@ -253,7 +255,7 @@ The full tool list is available in the console under **Settings → MCP / Agent*
 | Marketing email and automation | [docs/mcp/en/marketing.md](docs/mcp/en/marketing.md) | 30 | Subscribers, lists, templates, sending channels, campaigns, automations, suppression, price quotes |
 | Social distribution | [docs/mcp/en/social.md](docs/mcp/en/social.md) | 16 | Post drafts, compliance checks, job claiming, publish reporting, metrics |
 | Agent workspace | [docs/mcp/en/agent.md](docs/mcp/en/agent.md) | 29 | Tasks, skill library, per-site knowledge, plans, approvals, artifacts and reviews |
-| Setup overview | [docs/mcp/en/README.md](docs/mcp/en/README.md) | 159 | Endpoint, tokens, client setup, permissions, limits and troubleshooting |
+| Setup overview | [docs/mcp/en/README.md](docs/mcp/en/README.md) | 161 | Endpoint, tokens, client setup, permissions, limits and troubleshooting |
 
 The authoritative tool list is whatever `tools/list` returns.
 

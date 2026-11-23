@@ -69,7 +69,7 @@
 
 | 工具 | 读/写 | 作用 |
 | --- | --- | --- |
-| `enhance_seo_audit` | 读 | 检查 `index.html`、`robots.txt`、`sitemap.xml`、`llms.txt` / `llms-full.txt`，返回总分、逐项证据与按严重程度排序的修复建议 |
+| `enhance_seo_audit` | 读 | 检查 `index.html`、`robots.txt`、`sitemap.xml`、`llms.txt` / `llms-full.txt`，返回总分、逐项证据与按严重程度排序的修复建议；本地模式附带 `multilingual`（各语言页 lang/canonical/hreflang、文案识别结果与重复标题） |
 
 - `mode=local` 检查站点本地文件，无需部署；`mode=live` 抓取已部署站点。
 - `mode=live` 的 `url` 只能是当前站点绑定的域名或部署地址。
@@ -91,8 +91,8 @@ enhance_seo_audit  site="acme-site"  mode="live"
 | 工具 | 读/写 | 作用 |
 | --- | --- | --- |
 | `enhance_api_keys_list` | 读 | 查看站点 `/api/v1` Key 的类型、前缀、开放模块、来源白名单、启用 / 吊销状态与最近使用；不返回密钥 |
-| `enhance_embed_get` | 读 | 返回 `enhance.js` 片段、询盘 / 订阅表单片段与 `/api/v1` 接入信息，并检查页面是否已加载脚本、表单是否绑定 |
-| `enhance_embed_inject` | 写 | 向外部生成的 HTML 页面注入 `enhance.js`；默认处理所有 HTML，幂等跳过已包含脚本的页面 |
+| `enhance_embed_get` | 读 | 返回 `enhance.js` 片段、询盘 / 订阅表单片段与 `/api/v1` 接入信息，并检查页面是否已加载脚本、表单是否绑定；核心脚本按功能加载模块，可用 `data-modules` 固定子集，语言支持 10 种内置代码与自定义 `data-strings` |
+| `enhance_embed_inject` | 写 | 向外部生成的 HTML 页面注入 `enhance.js` 核心脚本（功能模块按需加载）；默认处理所有 HTML，幂等跳过已包含脚本的页面 |
 
 - 没有可用 Key 时，`enhance_api_keys_list` 返回控制台 `createUrl`，引导用户在 **站点增强 → API 接入** 创建。
 - 注入后页面会标记待部署；用 `enhance_embed_get` 复核后再 `deploy_site`。
@@ -105,7 +105,7 @@ enhance_seo_audit  site="acme-site"  mode="live"
 | `quote_list` | 读 | 按站点 / 状态列出 B2B 报价单，最新在前 |
 | `quote_get` | 读 | 读取单个报价单的行项目、金额与状态 |
 | `quote_create` | 写 | 从询盘创建报价，或传 `customer_name` 独立创建；支持 `template` |
-| `quote_document` | 读 | 返回客户页与 HTML/PDF 下载链接 |
+| `quote_document` | 读 | 返回客户页、可打印 HTML 与浏览器打印链接（PDF 由浏览器生成） |
 | `quote_send` | 写 | 发送到客户邮箱，生成签名确认链接；按主钱包按封计费 |
 
 - `lead_id` 可选；独立报价传 `customer_name`（可选 email/company），行项目保持手动填写。
@@ -120,7 +120,7 @@ enhance_seo_audit  site="acme-site"  mode="live"
 | `sample_order_get` | 读 | 单个样品单：行项目、收款、物流与文档链接 |
 | `sample_order_create` | 写 | 传 `quote_id` 从报价生成，或 `customer_name` + `items` 独立创建 |
 | `sample_order_send` | 写 | 重新发送样品单邮件，按主钱包计费 |
-| `sample_order_document` | 读 | 返回客户页与 HTML/PDF 下载链接 |
+| `sample_order_document` | 读 | 返回客户页、可打印 HTML 与浏览器打印链接（PDF 由浏览器生成） |
 
 - 创建时填写 `customer_email` 会自动发信并计费；未启用样品单或缺少收款方式会返回明确错误。
 - `template` 与报价共用四套模板。

@@ -18,7 +18,7 @@
 - Sample orders can be created without a quotation, with wallet-billed customer email and resend.
 
 ### MCP
-- 159 tools: sites 19, publish 17, growth 43, marketing 30, social 16, agent 32, meta 2.
+- 161 tools: sites 21, publish 17, growth 43, marketing 30, social 16, agent 32, meta 2.
 - New tools: `quote_document`, `sample_order_list/get/create/send/document`, `booking_list/cancel`, `domain_dns_apply`, `domain_status_refresh`.
 - `capabilities` now reports shared storage usage, deploy-provider modes, document links and domain capabilities.
 
